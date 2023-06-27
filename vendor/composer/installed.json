@@ -1,0 +1,99 @@
+[
+    {
+        "name": "vyfakturuj/vyfakturuj-api-php",
+        "version": "v2.5.1",
+        "version_normalized": "2.5.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/redbitcz/vyfakturuj-api-php.git",
+            "reference": "add636244dbb9d7b02f0af07f4cf4d44a1cfb149"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/redbitcz/vyfakturuj-api-php/zipball/add636244dbb9d7b02f0af07f4cf4d44a1cfb149",
+            "reference": "add636244dbb9d7b02f0af07f4cf4d44a1cfb149",
+            "shasum": ""
+        },
+        "require": {
+            "ext-curl": "*",
+            "ext-json": "*",
+            "php": ">=5.6.0"
+        },
+        "suggest": {
+            "composer/ca-bundle": "Umožňuje ověřit SSL certifikáty serveru"
+        },
+        "time": "2021-02-08T09:14:24+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "libs/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Redbit s.r.o.",
+                "homepage": "https://www.redbit.cz/"
+            }
+        ],
+        "description": "Vyfakturuj API",
+        "homepage": "https://www.vyfakturuj.cz/api/",
+        "keywords": [
+            "api",
+            "faktura",
+            "vyfakturuj"
+        ]
+    },
+    {
+        "name": "yahnis-elsts/plugin-update-checker",
+        "version": "v4.13",
+        "version_normalized": "4.13.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/YahnisElsts/plugin-update-checker.git",
+            "reference": "6eb27a6911e0e0880d09e5b11f577d3f688f7da7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/YahnisElsts/plugin-update-checker/zipball/6eb27a6911e0e0880d09e5b11f577d3f688f7da7",
+            "reference": "6eb27a6911e0e0880d09e5b11f577d3f688f7da7",
+            "shasum": ""
+        },
+        "require": {
+            "ext-json": "*",
+            "php": ">=5.2.0"
+        },
+        "time": "2022-07-29T12:36:25+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "load-v4p13.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Yahnis Elsts",
+                "email": "whiteshadow@w-shadow.com",
+                "homepage": "http://w-shadow.com/",
+                "role": "Developer"
+            }
+        ],
+        "description": "A custom update checker for WordPress plugins and themes. Useful if you can't host your plugin in the official WP repository but still want it to support automatic updates.",
+        "homepage": "https://github.com/YahnisElsts/plugin-update-checker/",
+        "keywords": [
+            "automatic updates",
+            "plugin updates",
+            "theme updates",
+            "wordpress"
+        ]
+    }
+]

@@ -1,0 +1,37 @@
+$gateways     = edd_get_payment_gateways();
+Array
+(
+    [paypal] => Array
+        (
+            [admin_label] => PayPal Standard
+            [checkout_label] => PayPal
+            [supports] => Array
+                (
+                    [0] => buy_now
+                )
+
+        )
+
+    [manual] => Array
+        (
+            [admin_label] => Testovací platba
+            [checkout_label] => Testovací platba
+        )
+
+    [amazon] => Array
+        (
+            [admin_label] => Amazon
+            [checkout_label] => Amazon
+            [supports] => Array
+                (
+                )
+
+        )
+
+    [eddgopay] => Array
+        (
+            [admin_label] => GoPay
+            [checkout_label] => Online platební karta nebo převod (ihned)
+        )
+
+)
