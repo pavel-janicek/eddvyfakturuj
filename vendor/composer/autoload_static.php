@@ -11,6 +11,7 @@ class ComposerStaticInit53bcbf69d698b1f08553ba5a30074dad
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'VyfakturujAPI' => __DIR__ . '/..' . '/vyfakturuj/vyfakturuj-api-php/libs/VyfakturujAPI.php',
         'VyfakturujAPIException' => __DIR__ . '/..' . '/vyfakturuj/vyfakturuj-api-php/libs/VyfakturujAPIException.php',
         'VyfakturujEnum' => __DIR__ . '/..' . '/vyfakturuj/vyfakturuj-api-php/libs/VyfakturujEnum.php',

@@ -1,6 +1,6 @@
 {
     "require": {
         "yahnis-elsts/plugin-update-checker": "^4.9",
-        "vyfakturuj/vyfakturuj-api-php": "^2.4"
+        "vyfakturuj/vyfakturuj-api-php": "^2.5"
     }
 }
