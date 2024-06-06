@@ -764,7 +764,9 @@ if (!class_exists('Clvr_Vyfakturuj')){
 				global $edd_options;
       	$vyfakturuj_api = new VyfakturujAPI($edd_options['eddvyfakturuj_login'],$edd_options['eddvyfakturuj_token']);
       	$inv = $this->getInvoice($payment_id);
-      	$vyfakturuj_api->invoice_setPayment($inv['id'],date('Y-m-d'));
+		if(is_array($inv)) {
+			$vyfakturuj_api->invoice_setPayment($inv['id'],date('Y-m-d'));
+		}      	
 	  }
 
 
