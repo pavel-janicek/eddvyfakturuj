@@ -134,15 +134,15 @@ if (!class_exists('Clvr_Vyfakturuj')){
     }
 
     public function store_payment_meta($payment){
-      $payment_meta_wrapper = new Clvr_EDD_Order_Meta_wrapper();	
-      $extra_fields = $this->all_extra_fields();
+          $extra_fields = $this->all_extra_fields();
+		  $payment_meta = $payment->get_meta();
       
       foreach ($extra_fields as $key => $extra_field){
     		if(empty($payment_meta[$extra_field])){
     			//$payment_meta[$extra_field] = isset( $_POST[$extra_field] ) ? sanitize_text_field( $_POST[$extra_field] ) : '';
 
     			//$payment->update_meta($extra_field,isset( $_POST[$extra_field] ) ? sanitize_text_field( $_POST[$extra_field] ) : '');
-    			$payment_meta_wrapper->add_meta($payment->ID,$extra_field,isset( $_POST[$extra_field] ) ? sanitize_text_field( $_POST[$extra_field] ) : '');
+    			$payment->update_meta($extra_field,isset( $_POST[$extra_field] ) ? sanitize_text_field( $_POST[$extra_field] ) : '');
     		}
       }
 
@@ -153,29 +153,27 @@ if (!class_exists('Clvr_Vyfakturuj')){
 			global $edd_options;
 			$payment      = new EDD_Payment( $payment_id );
 			$edd_customer_id = $payment->customer_id;
-			$wrapper = new Clvr_EDD_Customer_Meta_wrapper();
-			$payment_meta_wrapper = new Clvr_EDD_Order_Meta_wrapper();
-			$vyfakturuj_customer_id = $wrapper->get_meta($edd_customer_id,self::CUSTOMER_ID_META_KEY);
+			$vyfakturuj_customer_id = $payment->get_meta(self::CUSTOMER_ID_META_KEY);
 			if (!empty($vyfakturuj_customer_id)){
 				return $vyfakturuj_customer_id;
 			}
 			$payment_meta   = $payment->get_meta();
 			$user_info = edd_get_payment_meta_user_info( $payment_id );
 			$customer_data = [
-				'IC' =>  $payment_meta_wrapper->get_meta($payment_id,'edd_ic'),
-				'name' => $this->getCustomerName($payment_meta_wrapper->get_meta($payment_id,'edd_firma'),$payment_meta['user_info']['first_name'],$payment_meta['user_info']['last_name']),
+				'IC' =>  $payment->get_meta('edd_ic'),
+				'name' => $this->getCustomerName($payment->get_meta('edd_firma'),$payment_meta['user_info']['first_name'],$payment_meta['user_info']['last_name']),
     		'note' => 'Kontakt vytvořený přes plugin EDD Vyfakturuj od cleverstart.cz ',
-    		'company' => $payment_meta_wrapper->get_meta($payment_id,'edd_firma'),
-    		'street' => $payment_meta_wrapper->get_meta($payment_id,'edd_ulice'),
-    		'city' => $payment_meta_wrapper->get_meta($payment_id,'edd_mesto'),
-    		'zip' => $payment_meta_wrapper->get_meta($payment_id,'edd_psc'),
-    		'country' => $payment_meta_wrapper->get_meta($payment_id,'edd_stat'),
+    		'company' => $payment->get_meta('edd_firma'),
+    		'street' => $payment->get_meta('edd_ulice'),
+    		'city' => $payment->get_meta('edd_mesto'),
+    		'zip' => $payment->get_meta('edd_psc'),
+    		'country' => $payment->get_meta('edd_stat'),
     		'mail_to' => $user_info['email'],
 			];
 			$vyfakturuj_api = new VyfakturujAPI($edd_options['eddvyfakturuj_login'],$edd_options['eddvyfakturuj_token']);
 			$vyfakturuj_customer = $vyfakturuj_api->createContact($customer_data);
 			$vyfakturuj_customer_id = $vyfakturuj_customer['id'];
-			$result = $wrapper->add_meta($edd_customer_id,self::CUSTOMER_ID_META_KEY,$vyfakturuj_customer_id);
+			$result = $payment->update_meta(self::CUSTOMER_ID_META_KEY,$vyfakturuj_customer_id);
 			return $vyfakturuj_customer_id;
 
 
@@ -230,56 +228,56 @@ if (!class_exists('Clvr_Vyfakturuj')){
      * The {Firma} email tag
      */
     public function email_tag_firma( $payment_id ) {
-    	$wrapper = new Clvr_EDD_Order_Meta_wrapper();
-    	return $wrapper->get_meta($payment_id,'edd_firma');
+    	$wrapper = new EDD_Payment($payment_id);
+    	return $wrapper->get_meta('edd_firma');
     }
 
     /**
      * The {Stat} email tag
      */
     public function email_tag_stat( $payment_id ) {
-    	$wrapper = new Clvr_EDD_Order_Meta_wrapper();
-    	return $wrapper->get_meta($payment_id,'edd_stat');
+    	$wrapper = new EDD_Payment($payment_id);
+    	return $wrapper->get_meta('edd_stat');
     }
 
     /**
      * The {IC} email tag
      */
     public function email_tag_ic( $payment_id ) {
-    	$wrapper = new Clvr_EDD_Order_Meta_wrapper();
-    	return $wrapper->get_meta($payment_id,'edd_ic');
+    	$wrapper = new EDD_Payment($payment_id);
+    	return $wrapper->get_meta('edd_ic');
     }
 
     /**
      * The {DIC} email tag
      */
     public function email_tag_dic( $payment_id ) {
-    	$wrapper = new Clvr_EDD_Order_Meta_wrapper();
-    	return $wrapper->get_meta($payment_id,'edd_dic');
+    	$wrapper = new EDD_Payment($payment_id);
+    	return $wrapper->get_meta('edd_dic');
     }
 
     /**
      * The {Ulice} email tag
      */
     public function email_tag_ulice( $payment_id ) {
-    	$wrapper = new Clvr_EDD_Order_Meta_wrapper();
-    	return $wrapper->get_meta($payment_id,'edd_ulice');
+    	$wrapper = new EDD_Paymennt($payment_id);
+    	return $wrapper->get_meta('edd_ulice');
     }
 
     /**
      * The {Mesto} email tag
      */
     public function email_tag_mesto( $payment_id ) {
-    	$wrapper = new Clvr_EDD_Order_Meta_wrapper();
-    	return $wrapper->get_meta($payment_id,'edd_mesto');
+    	$wrapper = new EDD_Payment($payment_id);
+    	return $wrapper->get_meta('edd_mesto');
     }
 
     /**
      * The {PSC} email tag
      */
     public function email_tag_psc( $payment_id ) {
-    	$wrapper = new Clvr_EDD_Order_Meta_wrapper();
-    	return $wrapper->get_meta($payment_id,'edd_psc');
+    	$wrapper = new EDD_Payment($payment_id);
+    	return $wrapper->get_meta('edd_psc');
     }
 
     public function email_tag_polozky($payment_id){
@@ -424,8 +422,8 @@ if (!class_exists('Clvr_Vyfakturuj')){
         return;
       }
       //include_once 'VyfakturujAPI.class.php';
-      $wrapper = new Clvr_EDD_Order_Meta_wrapper();
-      $invoice_id = $wrapper->get_meta(  $payment_id, self::INVOICE_ID_META_KEY );
+      $edd_payment = new EDD_Payment($payment_id);
+      $invoice_id = $edd_payment->get_meta(  $payment_id, self::INVOICE_ID_META_KEY );
       $vyfakturuj_api = $this->getClient();
       if (!empty($invoice_id)){
         $inv = $vyfakturuj_api->getInvoice($invoice_id);
@@ -437,7 +435,7 @@ if (!class_exists('Clvr_Vyfakturuj')){
 				$this->createTemplate($payment_id,$payment_meta);
 			}
       $inv = $vyfakturuj_api->createInvoice($data);
-      $wrapper->add_meta( $payment_id, self::INVOICE_ID_META_KEY, $inv['id'] );
+      $edd_payment->update_meta(self::INVOICE_ID_META_KEY, $inv['id'] );
       return $inv;
     }
 
@@ -481,14 +479,10 @@ if (!class_exists('Clvr_Vyfakturuj')){
 		print_r($this->getInvoice($payment_id));
 
 		echo 'getting customer <br>';
-		$wrapper = new Clvr_EDD_Order_Meta_wrapper();
+		$wrapper = new EDD_Payment($payment_id);
 		print_r($payment_meta['key']);
-		print_r($wrapper->getSql($payment_meta['key']));
 		//print_r($wrapper->get_payment_id($payment_meta['key']));
-		global $wpdb;
-		$result= $wpdb->get_results($wrapper->getSql($payment_meta['key']),'ARRAY_A');
-		print_r($result);
-
+	
 		exit;
 
 
@@ -524,8 +518,8 @@ if (!class_exists('Clvr_Vyfakturuj')){
 		if(  edd_is_cart_taxed() ){
 			$flags--;//invoice contains VAT
 		}
-		$wrapper = new Clvr_EDD_Order_Meta_wrapper();
-		$edd_firma = $wrapper->get_meta($payment_id,'edd_firma');
+		$wrapper = new EDD_Payment($payment_id);
+		$edd_firma = $wrapper->get_meta('edd_firma');
 
         $opt = array(
           	'type' => $type,
@@ -541,23 +535,23 @@ if (!class_exists('Clvr_Vyfakturuj')){
 			'mail_to' => $payment->email
 
         );
-      	if(!empty($wrapper->get_meta($payment_id,'edd_ic'))){
-      		$opt['customer_IC'] = $wrapper->get_meta($payment_id,'edd_ic');
+      	if(!empty($wrapper->get_meta('edd_ic'))){
+      		$opt['customer_IC'] = $wrapper->get_meta('edd_ic');
       	}
-      	if(!empty($wrapper->get_meta($payment_id,'edd_dic'))){
-      		$opt['customer_DIC'] = $wrapper->get_meta($payment_id,'edd_dic');
+      	if(!empty($wrapper->get_meta('edd_dic'))){
+      		$opt['customer_DIC'] = $wrapper->get_meta('edd_dic');
       	}
-      	if(!empty($wrapper->get_meta($payment_id,'edd_ulice'))){
-      		$opt['customer_street'] = $wrapper->get_meta($payment_id,'edd_ulice');
+      	if(!empty($wrapper->get_meta('edd_ulice'))){
+      		$opt['customer_street'] = $wrapper->get_meta('edd_ulice');
       	}
-      	if(!empty($wrapper->get_meta($payment_id,'edd_mesto'))){
-      		$opt['customer_city'] = $wrapper->get_meta($payment_id,'edd_mesto');
+      	if(!empty($wrapper->get_meta('edd_mesto'))){
+      		$opt['customer_city'] = $wrapper->get_meta('edd_mesto');
       	}
-      	if(!empty($wrapper->get_meta($payment_id,'edd_psc'))){
-      		$opt['customer_zip'] = $wrapper->get_meta($payment_id,'edd_psc');
+      	if(!empty($wrapper->get_meta('edd_psc'))){
+      		$opt['customer_zip'] = $wrapper->get_meta('edd_psc');
       	}
-      	if(!empty($wrapper->get_meta($payment_id,'edd_stat'))){
-      			$opt['customer_country'] = $wrapper->get_meta($payment_id,'edd_stat');
+      	if(!empty($wrapper->get_meta('edd_stat'))){
+      			$opt['customer_country'] = $wrapper->get_meta('edd_stat');
 		}
 		// if(isset($edd_options[$this->context.'_id_platby'])){
 		// 	$opt['id_payment_method'] = $edd_options[$this->context.'_id_platby'];
@@ -764,7 +758,7 @@ if (!class_exists('Clvr_Vyfakturuj')){
 				global $edd_options;
       	$vyfakturuj_api = new VyfakturujAPI($edd_options['eddvyfakturuj_login'],$edd_options['eddvyfakturuj_token']);
       	$inv = $this->getInvoice($payment_id);
-		if(is_array($inv)) {
+		if (is_array($inv)) {
 			$vyfakturuj_api->invoice_setPayment($inv['id'],date('Y-m-d'));
 		}      	
 	  }
