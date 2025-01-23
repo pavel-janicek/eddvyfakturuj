@@ -470,6 +470,7 @@ if (!class_exists('Clvr_Vyfakturuj_Settings')){
 			$subject = edd_do_email_tags( $subject, $payment_id );
 			$message = edd_get_option( $this->context.'_user_mail_text', $this->defaultUserMail() );
 			$message = edd_do_email_tags( $message, $payment_id);
+			$message = nl2br($message);
 			EDD()->emails->send( $to, $subject, $message );
 
 		  }
@@ -480,6 +481,7 @@ if (!class_exists('Clvr_Vyfakturuj_Settings')){
 			$subject = edd_do_email_tags( $admin_subject, $payment_id );
 			$message = edd_get_option( $this->context.'_admin_mail_text', $this->defaultAdminMail() );
 			$message = edd_do_email_tags( $message, $payment_id);
+			$message = nl2br($message);
 			EDD()->emails->send( $to, $subject, $message );
 		  }
 	  }
